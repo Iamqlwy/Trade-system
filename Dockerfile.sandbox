@@ -1,0 +1,44 @@
+# 沙箱 Docker 镜像 — Python 3.13 + 量化交易工具链
+FROM docker.m.daocloud.io/library/python:3.13-slim
+
+# 安装系统工具 + TA-Lib C 库依赖
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl wget jq tree file less grep sed gawk \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安装 TA-Lib C 库（从源码编译，Python ta-lib 需要）
+RUN cd /tmp && \
+    wget -q https://github.com/ta-lib/ta-lib/releases/download/v0.6.4/ta-lib-0.6.4-src.tar.gz && \
+    tar -xzf ta-lib-0.6.4-src.tar.gz && \
+    cd ta-lib-0.6.4 && \
+    ./configure --prefix=/usr && \
+    make -j$(nproc) && \
+    make install && \
+    cd / && rm -rf /tmp/ta-lib*
+
+# 创建非 root 用户（uid=1000）
+RUN groupadd -g 1000 sandbox && \
+    useradd -m -u 1000 -g sandbox -s /bin/bash sandbox && \
+    mkdir -p /home/sandbox/.config && \
+    chown -R sandbox:sandbox /home/sandbox
+
+# pip 清华镜像
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+# Python 库
+RUN pip install --no-cache-dir --root-user-action=ignore \
+    numpy pandas scipy scikit-learn \
+    matplotlib mplfinance \
+    requests httpx \
+    akshare yfinance stockstats \
+    ta ta-lib \
+    sqlalchemy pymysql redis pyjwt cryptography \
+    beautifulsoup4 lxml openpyxl pillow \
+    pydantic loguru tqdm
+
+# 工作目录
+WORKDIR /workspace
+RUN chown sandbox:sandbox /workspace
+
+USER sandbox
