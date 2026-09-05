@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables (secrets)
+.env
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Mypy
+.mypy_cache/
+
+# Agent runtime data
+agent_sessions/
+data/agent_uploads/
+data/monitors/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Nested scratch repo (Claude Code 开发工具用，不作为子模块提交)
+code/
+
+# Screenshots
+*.png
