@@ -2,7 +2,7 @@
 
 基于 **FastAPI + Vue 3** 的 A 股量化交易平台：多策略虚拟账户管理、仿真/实盘双执行引擎（xtquant）、实时行情推送、内置 LLM 交易助手，前后端分离单体仓库。
 
-本平台是「**量化投研闭环**」的**应用/交易层**：读取 [kbquant](https://github.com/Iamqlwy/kbquant) 沉淀的数据与 ES 知识，消费 [workflow](https://github.com/Iamqlwy/workflow) 产出的分析，完成可视化与交易决策。
+本平台是「**量化投研闭环**」的**应用/交易层**：读取 [kbquant](https://github.com/Iamqlwy/knowledge-base-quant) 沉淀的数据与 ES 知识，消费 [workflow](https://github.com/Iamqlwy/quant-news-workflow) 产出的分析，完成可视化与交易决策。
 
 > ⚠️ **免责声明**：本项目仅用于学习、研究和模拟交易。实盘交易有风险，请自行评估并谨慎使用，作者不对任何交易损失承担责任。
 
@@ -19,12 +19,12 @@
 
 ## 🔗 系统定位：量化投研闭环（一体系统）
 
-本仓库与 [kbquant](https://github.com/Iamqlwy/kbquant)、[workflow](https://github.com/Iamqlwy/workflow) 同属「**量化投研闭环**」，本仓库是终端交易层：
+本仓库与 [kbquant](https://github.com/Iamqlwy/knowledge-base-quant)、[workflow](https://github.com/Iamqlwy/quant-news-workflow) 同属「**量化投研闭环**」，本仓库是终端交易层：
 
 | 仓库 | 角色 | 关系 |
 | --- | --- | --- |
-| [kbquant](https://github.com/Iamqlwy/kbquant) | 知识库后端（数据/知识层） | 本仓库经 `KB_DB_*` / `ES_URL` 只读账号读取其 PG 与 ES |
-| [workflow](https://github.com/Iamqlwy/workflow) | 多 Agent 分析流水线 | 产出 Analysis/Trading/Feedback 落库到 kbquant |
+| [kbquant](https://github.com/Iamqlwy/knowledge-base-quant) | 知识库后端（数据/知识层） | 本仓库经 `KB_DB_*` / `ES_URL` 只读账号读取其 PG 与 ES |
+| [workflow](https://github.com/Iamqlwy/quant-news-workflow) | 多 Agent 分析流水线 | 产出 Analysis/Trading/Feedback 落库到 kbquant |
 | Trade-system（本仓库） | A 股交易平台（应用/交易层） | 可视化与消费知识，驱动交易决策 |
 
 ```text
@@ -91,7 +91,7 @@ app/
 - MySQL 8.x
 - Docker（可选：Agent Shell 沙箱）
 - xtquant 环境（实盘交易，可选）
-- PostgreSQL + Elasticsearch（知识库，**核心集成**）：即 [kbquant](https://github.com/Iamqlwy/kbquant) 提供的数据/知识层，通过 `KB_DB_*` / `ES_URL` 只读接入；未配置时 AI 助手退化为纯 web 检索，知识图谱/检索/经验视图不可用
+- PostgreSQL + Elasticsearch（知识库，**核心集成**）：即 [kbquant](https://github.com/Iamqlwy/knowledge-base-quant) 提供的数据/知识层，通过 `KB_DB_*` / `ES_URL` 只读接入；未配置时 AI 助手退化为纯 web 检索，知识图谱/检索/经验视图不可用
 
 ### 2. 后端
 
@@ -136,7 +136,7 @@ docker build -t quant-sandbox:latest -f Dockerfile.sandbox .
 | `XTACCOUNT` / `XTDATA_PATH` / `XTTRADER_PATH` | xtquant 实盘配置，留空则仅仿真模式 |
 | `LLM_BASE_URL` / `LLM_API_KEY` / `LLM_MODEL` | AI 助手模型配置 |
 | `OSS_*` | 阿里云 OSS（图片上传，可不配置） |
-| `KB_DB_*` / `ES_URL` / `EMBEDDING_*` | 知识库检索（指向 [kbquant](https://github.com/Iamqlwy/kbquant) 数据层，核心集成） |
+| `KB_DB_*` / `ES_URL` / `EMBEDDING_*` | 知识库检索（指向 [kbquant](https://github.com/Iamqlwy/knowledge-base-quant) 数据层，核心集成） |
 
 ## 🧠 知识库集成（闭环关键）
 
@@ -178,8 +178,8 @@ pytest tests/
 
 ## 🔗 相关仓库
 
-- [kbquant](https://github.com/Iamqlwy/kbquant) — 知识库后端（本平台的数据/知识层）
-- [workflow](https://github.com/Iamqlwy/workflow) — AI 分析流水线（知识的产出方）
+- [kbquant](https://github.com/Iamqlwy/knowledge-base-quant) — 知识库后端（本平台的数据/知识层）
+- [workflow](https://github.com/Iamqlwy/quant-news-workflow) — AI 分析流水线（知识的产出方）
 
 ## 📄 License
 
